@@ -21,58 +21,47 @@ impact_2 <- map_df(files, read_csv, .id = "file")
 
 impact00_10 <- import(here("ImPACT_data", "2000_2010_impact.csv"),
                  setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact11 <- import(here("ImPACT_data", "2011_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact12 <- import(here("ImPACT_data", "2012_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact13 <- import(here("ImPACT_data", "2013_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names()
 
 impact14 <- import(here("ImPACT_data", "2014_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact15 <- import(here("ImPACT_data", "2015_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact16 <- import(here("ImPACT_data", "2016_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact17 <- import(here("ImPACT_data", "2017_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact18 <- import(here("ImPACT_data", "2018_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact19 <- import(here("ImPACT_data", "2019_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact20 <- import(here("ImPACT_data", "2020_impact.csv"),
                    setclass = "tbl_df") %>% 
-  janitor::clean_names() %>% 
-  mutate_all(as.character)
+  janitor::clean_names() 
 
 impact <- bind_rows("2000-2010" = impact00_10, 
                     "2011" = impact11, 
@@ -88,6 +77,7 @@ impact <- bind_rows("2000-2010" = impact00_10,
                       .id = "year") 
 
 glimpse(impact)
+glimpse(impact11)
 
 
 ggplot(impact, aes(user_number_of_concussions)) +
