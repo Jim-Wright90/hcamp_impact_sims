@@ -1,6 +1,5 @@
 ---
 title: "HCAMP ImPACT Data"
-author: "Jim Wright"
 output:
   html_document:
     toc: true
