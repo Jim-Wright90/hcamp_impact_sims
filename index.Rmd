@@ -1413,7 +1413,7 @@ time_hist(time_data_baseline_2, time_between)
 
 ## Table 1
 
-Of the 18,556 individuals who received two baseline tests and scored higher on at least one composite score on the second baseline administration, the average number of days between test days was observed to be 637.78 days with a standard deviation of 246.56 days. The minimum number of days between baseline test administrations was observed to be 0 days, while the maximum number of days was observed to be 2,737 days. 
+Of the 18,556 individuals who received two baseline tests and scored higher on at least one composite score on the second baseline administration, the average number of days between test dates was observed to be 637.78 days with a standard deviation of 246.56 days. The minimum number of days between baseline test administrations was observed to be 0 days, while the maximum number of days was observed to be 2,737 days. 
 ```{r}
 time_react(time_data_baseline_1, time_between)
 ```
@@ -1425,7 +1425,7 @@ time_hist(time_data_baseline_1, time_between)
 
 ## Table 2
 
-Of the 1,130 individuals who received two baseline tests and scored higher on all five composite scores on the second baseline administration, the average number of days between test days was observed to be 646.73 days with a standard deviation of 245.79 days. The minimum number of days between baseline test administrations was observed to be 0 days, while the maximum number of days was observed to be 1,533 days. 
+Of the 1,130 individuals who received two baseline tests and scored higher on all five composite scores on the second baseline administration, the average number of days between test dates was observed to be 646.73 days with a standard deviation of 245.79 days. The minimum number of days between baseline test administrations was observed to be 0 days, while the maximum number of days was observed to be 1,533 days. 
 ```{r}
 time_react(time_data_baseline_2, time_between)
 ```
