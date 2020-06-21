@@ -1767,7 +1767,7 @@ time_data_baseline_1 %>%
 
 # What is the percent decrease in composite score from baseline to post-injury 1 test administration? 
 
-The data set contains 7,952 individuals who completed one baseline assessment and one post-injury 1 assessment. This section provides details on the comparison scores between each composite score. Unique to this dataset is that a similar number of individuals scored higher on baseline than post-injury 1 assessment and vice versa across all composite scores. Therefore, the following sub-sections present composite score comparisons for individuals who scored higher on baseline than post-injury 1 and vice versa. When merging the data sets of the individual composite scores together, 7,748 individuals were identified to have scored higher on the baseline assessment on at least one composite score, while 230 individuals were identified to have scored higher on all five baseline composite scores. Conversely, 7,722 individuals were identified to have scored higher on the post-injury 1 assessment on at least one composite score, while 204 individuals were identified to have scored higher on all five post-injury 1 scores. The Reaction Time and Visual Motor composite scores were the two identified scores where a higher number of individuals scored higher on the post-injury 1 assessment than the baseline assessment. 
+The data set contains 7,952 individuals who completed one baseline assessment and one post-injury 1 assessment. This section provides details on the comparison scores between each composite score. When merging the data sets of the individual composite scores, 7,748 individuals (97.43%) were identified to have scored higher on the baseline assessment on at least one composite score, while 230 (2.89%) individuals were identified to have scored higher on all five baseline composite scores. Conversely, 7,722 (97.11%) individuals were identified to have scored higher on the post-injury 1 assessment on at least one composite score, while 204 (2.57%) individuals were identified to have scored higher on all five post-injury 1 scores. The Reaction Time and Visual Motor composite scores were the two identified domains where a greater number of individuals scored higher on the post-injury 1 assessment than the baseline assessment. 
 
 ```{r post injury 1 data organization, include=FALSE}
 head(test_time)
@@ -2061,7 +2061,7 @@ percent_inc_hist_pi(pi_mem_verbal_higher_pi, mem_verbal_percent_inc)
 
 
 ## Verbal Memory Composite Score 
-The verbal memory composite score data set contains 7,951 individuals, suggesting the existence of a single missing score for one participant. 4,344 individuals were identified to have obtained a higher baseline score, while 3,607 individuals were identified to obtain a higher post-injury score. 
+The verbal memory composite score data set contains 7,951 individuals, suggesting the existence of a single missing score for one participant. 4,344 individuals (54.63%) were identified to have obtained a higher baseline score, while 3,607 (45.37%) individuals were identified to obtain a higher post-injury score. 
 
 ### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
 
@@ -2200,7 +2200,7 @@ pi_mem_verbal_higher_pi %>%
 
 
 ## Visual Memory Composite Score 
-The visual memory composite score data set contains 7,952 individuals. 4,404 individuals were identified to have obtained a higher baseline score, while 3,548 individuals were identified to obtain a higher post-injury score. 
+The visual memory composite score data set contains 7,952 individuals. 4,404 individuals (55.38%) were identified to have obtained a higher baseline score, while 3,548 individuals (44.62%) were identified to obtain a higher post-injury score. 
 
 ### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
 
@@ -2338,7 +2338,7 @@ pi_mem_visual_higher_pi %>%
 
 
 ## Impulse Control Composite Score 
-The impulse control composite score data set contains 7,952 individuals. 4,498 individuals were identified to have obtained a higher baseline score, while 3,454 individuals were identified to obtain a higher post-injury score. 
+The impulse control composite score data set contains 7,952 individuals. 4,498 individuals (56.56%) were identified to have obtained a higher baseline score, while 3,454 individuals (43.34%) were identified to obtain a higher post-injury score. 
 
 ### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
 
@@ -2475,7 +2475,7 @@ pi_impulse_control_higher_pi %>%
 
 
 ## Reaction Time Composite Score 
-The reaction time composite score data set contains 7,952 individuals. 3,930 individuals were identified to have obtained a higher baseline score, while 4.022 individuals were identified to obtain a higher post-injury score. 
+The reaction time composite score data set contains 7,952 individuals. 3,930 individuals (49.42%) were identified to have obtained a higher baseline score, while 4.022 individuals (50.58%) were identified to obtain a higher post-injury score. 
 
 ### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
 
@@ -2613,7 +2613,7 @@ pi_reaction_time_higher_pi %>%
 
 
 ## Visual Motor Composite Score 
-The impulse control composite score data set contains 7,951 individuals, suggesting the existence of a single missing score for one participant. 3,494 individuals were identified to have obtained a higher baseline score, while 4,457 individuals were identified to obtain a higher post-injury score. 
+The impulse control composite score data set contains 7,951 individuals, suggesting the existence of a single missing score for one participant. 3,494 individuals (43.94%) were identified to have obtained a higher baseline score, while 4,457 individuals (56.06%) were identified to obtain a higher post-injury score. 
 
 ### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
 
