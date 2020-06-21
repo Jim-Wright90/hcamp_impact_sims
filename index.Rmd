@@ -333,8 +333,11 @@ test_tbl
 ```
 
 ## Total Tests 
-Total number of ImPACT tests administered 2000-2020
-++ indicates invalid Basline tests 
+
+  * Total number of ImPACT tests administered 2000-2020
+  
+  * ++ indicates invalid Basline tests 
+  
 ```{r total test, include=FALSE}
 test_total <- tbl_variables %>% 
   group_by(test_type) %>% 
@@ -701,7 +704,7 @@ create_react <- function(df, var) {
         SD = colDef(format = colFormat(separators = TRUE)),
         Min = colDef(format = colFormat(separators = TRUE)),
         Max = colDef(format = colFormat(separators = TRUE)),
-        Total = colDef(format = colFormat(separators = TRUE))
+        Total = colDef(format = colFormat(separators = TRUE, suffix = " individuals"))
       ))
 }
 
@@ -718,7 +721,7 @@ react_percent <- function(df, var) {
       SD = colDef(format = colFormat(separators = TRUE, suffix = "%")),
       Min = colDef(format = colFormat(separators = TRUE, suffix = "%")),
       Max = colDef(format = colFormat(separators = TRUE, suffix = "%")),
-      Total = colDef(format = colFormat(separators = TRUE))
+      Total = colDef(format = colFormat(separators = TRUE, suffix = " individuals"))
       ))
 }
 
@@ -809,6 +812,19 @@ total_all_positive <- baseline_all_positive %>%
 
 t_sum <- data.frame("Level" = c("Two Baseline Assessments", "Gain on at least one Baseline 2 Composite Score", "Gain on all Baseline 2 Composite Scores"), "Total" = c(18748, 18556, 1130))
 
+
+score_hist <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "Test Score",
+         y = "Number of Individuals")
+}
 ```
 
 ```{r baseline numbers table, include=TRUE}
@@ -841,6 +857,35 @@ Five composite scores:
 ## Verbal Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
 11,034 individuals increased their verbal memory composite score on the second baseline test administration. 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 60.66 points with a standard deviation of 14.12. The minimum score was observed to be 1, and the maximum score was observed to be 83.
+
+```{r, include=TRUE}
+create_react(mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 71.54 points with a standard deviation of 9.52. The minimum score was observed to be 1, and the maximum score was observed to be 83.
+
+```{r, include=TRUE}
+create_react(mem_verbal, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_verbal, user_memory_composite_score_verbal_2)
+```
+
 
 ### Score Increase Summary
 
@@ -877,6 +922,7 @@ score_diff_hist <- function(df, x) {
     labs(x = "Point Increase on Baseline 2",
          y = "Number of Individuals")
 }
+
 
 score_diff_hist(mem_verbal, memory_verbal_diff)
 
@@ -931,6 +977,34 @@ percent_inc_density(mem_verbal, memory_verbal_percent_inc)
 ## Verbal Memory Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the verbal memory composite score for the 1,130 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 60.97 points with a standard deviation of 13.70. The minimum score was observed to be 1, and the maximum score was observed to be 83.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 72.2 points with a standard deviation of 9.34. The minimum score was observed to be 1, and the maximum score was observed to be 83.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_verbal_2)
+```
 
 ### Score Increase Summary
 
@@ -992,6 +1066,36 @@ mem_verbal %>%
 
 11,692 individuals increased their visual memory composite score on the second baseline test administration. 
 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 49.68 points with a standard deviation of 12.06. The minimum score was observed to be 1, and the maximum score was observed to be 79.
+
+```{r, include=TRUE}
+create_react(mem_visual, user_memory_composite_score_visual_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_visual, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 60.90 points with a standard deviation of 10.20. The minimum score was observed to be 1, and the maximum score was observed to be 79.
+
+```{r, include=TRUE}
+create_react(mem_visual, user_memory_composite_score_visual_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_visual, user_memory_composite_score_visual_2)
+```
+
+
 ### Score Increase Summary
 
 The average point increase from baseline 1 to baseline 2 was observed to be 11.23 points with a standard deviation of 9.15 points. The mininum point increase was observed to be 0, while the maximum point increase was observed to be 78. 
@@ -1022,6 +1126,34 @@ percent_inc_density(mem_visual, memory_visual_percent_inc)
 ## Visual Memory Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the visual memory composite score for the 1,130 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 49.81 points with a standard deviation of 11.91. The minimum score was observed to be 1, and the maximum score was observed to be 79.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_visual_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 60.91 points with a standard deviation of 9.68. The minimum score was observed to be 28, and the maximum score was observed to be 79.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_visual_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_visual_2)
+```
 
 ### Score Increase Summary
 
@@ -1083,6 +1215,35 @@ mem_visual %>%
 
 10,232 individuals increased their impulse control composite score on the second baseline test administration. 
 
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 21.83 points with a standard deviation of 20.69. The minimum score was observed to be 1, and the maximum score was observed to be 74.
+
+```{r, include=TRUE}
+create_react(impulse_control, user_impulse_control_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(impulse_control, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 46.04 points with a standard deviation of 22.65. The minimum score was observed to be 1, and the maximum score was observed to be 74.
+
+```{r, include=TRUE}
+create_react(impulse_control, user_impulse_control_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(impulse_control, user_impulse_control_composite_score_2)
+```
+
+
 ### Score Increase Summary
 
 The average point increase from baseline 1 to baseline 2 was observed to be 24.21 points with a standard deviation of 21.67 points. The mininum point increase was observed to be 0, while the maximum point increase was observed to be 73. 
@@ -1113,6 +1274,35 @@ percent_inc_density(impulse_control, impulse_control_percent_inc)
 ## Impulse Control Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the impulse control composite score for the 1,130 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 20.5 points with a standard deviation of 20.40. The minimum score was observed to be 1, and the maximum score was observed to be 74.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_impulse_control_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 45.33 points with a standard deviation of 22.41. The minimum score was observed to be 1, and the maximum score was observed to be 74.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_impulse_control_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_impulse_control_composite_score_2)
+```
+
 
 ### Score Increase Summary
 
@@ -1173,6 +1363,35 @@ impulse_control %>%
 
 7,654 individuals increased their reaction time composite score on the second baseline test administration. 
 
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 26.89 points with a standard deviation of 7.12. The minimum score was observed to be 4, and the maximum score was observed to be 77.
+
+```{r, include=TRUE}
+create_react(reaction_time, user_reaction_time_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(reaction_time, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 33.27 points with a standard deviation of 10.79. The minimum score was observed to be 11, and the maximum score was observed to be 160.
+
+```{r, include=TRUE}
+create_react(reaction_time, user_reaction_time_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(reaction_time, user_reaction_time_composite_score_2)
+```
+
+
 ### Score Increase Summary
 
 The average point increase from baseline 1 to baseline 2 was observed to be 6.38 points with a standard deviation of 7.91 points. The mininum point increase was observed to be 0, while the maximum point increase was observed to be 145. 
@@ -1203,6 +1422,35 @@ percent_inc_density(reaction_time, reaction_time_percent_inc)
 ## Reaction Time Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the reaction time composite score for the 1,130 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 27.15 points with a standard deviation of 7.33. The minimum score was observed to be 7, and the maximum score was observed to be 65.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_reaction_time_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 33.18 points with a standard deviation of 10.12. The minimum score was observed to be 13, and the maximum score was observed to be 95.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_reaction_time_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_reaction_time_composite_score_2)
+```
+
 
 ### Score Increase Summary
 
@@ -1270,6 +1518,35 @@ reaction_time %>%
 
 14,376 individuals increased their visual motor composite score on the second baseline test administration. 
 
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 1,026.47 points with a standard deviation of 291.26. The minimum score was observed to be 4, and the maximum score was observed to be 1,894.
+
+```{r, include=TRUE}
+create_react(visual_motor, user_visual_motor_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(visual_motor, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 1,274.93 points with a standard deviation of 281.13. The minimum score was observed to be 58, and the maximum score was observed to be 1,918.
+
+```{r, include=TRUE}
+create_react(visual_motor, user_visual_motor_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(visual_motor, user_visual_motor_composite_score_2)
+```
+
+
 ### Score Increase Summary
 
 The average point increase from baseline 1 to baseline 2 was observed to be 248.46 points with a standard deviation of 178.51 points. The mininum point increase was observed to be 0, while the maximum point increase was observed to be 1,689. 
@@ -1300,6 +1577,35 @@ percent_inc_density(visual_motor, visual_motor_percent_inc)
 ## Visual Motor Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the reaction time composite score for the 1,130 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 1,033.72 points with a standard deviation of 290.53. The minimum score was observed to be 31, and the maximum score was observed to be 1,824.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_visual_motor_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 1,251.76 points with a standard deviation of 284.11. The minimum score was observed to be 484, and the maximum score was observed to be 1,911.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_visual_motor_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_visual_motor_composite_score_2)
+```
+
 
 ### Score Increase Summary
 
@@ -1458,3 +1764,986 @@ time_data_baseline_1 %>%
   )
 ```
 
+
+# What is the percent decrease in composite score from baseline to post-injury 1 test administration? 
+
+The data set contains 7,952 individuals who completed one baseline assessment and one post-injury 1 assessment. This section provides details on the comparison scores between each composite score. Unique to this dataset is that a similar number of individuals scored higher on baseline than post-injury 1 assessment and vice versa across all composite scores. Therefore, the following sub-sections present composite score comparisons for individuals who scored higher on baseline than post-injury 1 and vice versa. When merging the data sets of the individual composite scores together, 7,748 individuals were identified to have scored higher on the baseline assessment on at least one composite score, while 230 individuals were identified to have scored higher on all five baseline composite scores. Conversely, 7,722 individuals were identified to have scored higher on the post-injury 1 assessment on at least one composite score, while 204 individuals were identified to have scored higher on all five post-injury 1 scores. The Reaction Time and Visual Motor composite scores were the two identified scores where a higher number of individuals scored higher on the post-injury 1 assessment than the baseline assessment. 
+
+```{r post injury 1 data organization, include=FALSE}
+head(test_time)
+
+post_injury <- test_time 
+
+head(post_injury)
+
+post_injury_2 <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_memory_composite_score_verbal),
+  ) %>% 
+  na.omit() %>% 
+  janitor::clean_names() 
+
+
+pi_mem_verbal <- post_injury_2
+
+str(pi_mem_verbal)
+
+pi_mem_verbal <- pi_mem_verbal %>% 
+  arrange(passport_id)
+
+head(pi_mem_verbal)
+
+baseline_mem_verbal <- pi_mem_verbal$user_memory_composite_score_verbal_baseline
+injury_mem_verbal <- pi_mem_verbal$user_memory_composite_score_verbal_post_injury_1
+
+t.test(baseline_mem_verbal, injury_mem_verbal, paired = TRUE)
+
+##add differences in baseline and injury scores and percent increases/decreases 
+
+
+pi_mem_verbal_higher_baseline <- pi_mem_verbal %>% 
+  mutate(mem_verbal_diff = user_memory_composite_score_verbal_baseline - user_memory_composite_score_verbal_post_injury_1) %>% 
+  filter(mem_verbal_diff >= 0) %>% 
+  mutate(mem_verbal_percent_dec = mem_verbal_diff / user_memory_composite_score_verbal_baseline * 100) 
+
+pi_mem_verbal_higher_baseline <- pi_mem_verbal_higher_baseline %>% 
+  arrange(passport_id)
+
+pi_mem_verbal_higher_pi <- pi_mem_verbal %>% 
+  mutate(mem_verbal_diff = user_memory_composite_score_verbal_post_injury_1 - user_memory_composite_score_verbal_baseline) %>% 
+  filter(mem_verbal_diff > 0) %>% 
+  mutate(mem_verbal_percent_inc = mem_verbal_diff / user_memory_composite_score_verbal_baseline * 100)
+
+pi_mem_verbal_higher_pi <- pi_mem_verbal_higher_pi %>% 
+  arrange(passport_id)
+
+
+pi_mem_visual <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_memory_composite_score_visual),
+  ) %>% 
+  na.omit() %>% 
+  janitor::clean_names()
+
+pi_mem_visual <- pi_mem_visual %>% 
+  arrange(passport_id)
+
+pi_mem_visual_higher_baseline <- pi_mem_visual %>% 
+  mutate(mem_visual_diff = user_memory_composite_score_visual_baseline - user_memory_composite_score_visual_post_injury_1) %>% 
+  filter(mem_visual_diff >= 0) %>% 
+  mutate(mem_visual_percent_dec = mem_visual_diff / user_memory_composite_score_visual_baseline * 100) 
+
+pi_mem_visual_higher_baseline <- pi_mem_visual_higher_baseline %>% 
+  arrange(passport_id)
+
+pi_mem_visual_higher_pi <- pi_mem_visual %>% 
+  mutate(mem_visual_diff = user_memory_composite_score_visual_post_injury_1 - user_memory_composite_score_visual_baseline) %>% 
+  filter(mem_visual_diff > 0) %>% 
+  mutate(mem_visual_percent_inc = mem_visual_diff / user_memory_composite_score_visual_baseline * 100) 
+ 
+pi_mem_visual_higher_pi <- pi_mem_visual_higher_pi %>% 
+  arrange(passport_id)
+
+pi_impulse_control <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_impulse_control_composite_score),
+  ) %>% 
+  na.omit() %>% 
+  janitor::clean_names()
+
+pi_impulse_control <- pi_impulse_control %>% 
+  arrange(passport_id)
+
+pi_impulse_control_higher_baseline <- pi_impulse_control %>% 
+  mutate(impulse_control_diff = user_impulse_control_composite_score_baseline - user_impulse_control_composite_score_post_injury_1) %>% 
+  filter(impulse_control_diff >= 0) %>% 
+  mutate(impulse_control_percent_dec = impulse_control_diff / user_impulse_control_composite_score_baseline * 100) 
+
+pi_impulse_control_higher_baseline <- pi_impulse_control_higher_baseline %>% 
+  arrange(passport_id)
+
+pi_impulse_control_higher_pi <- pi_impulse_control %>% 
+  mutate(impulse_control_diff = user_impulse_control_composite_score_post_injury_1 - user_impulse_control_composite_score_baseline) %>% 
+  filter(impulse_control_diff > 0) %>% 
+  mutate(impulse_control_percent_inc = impulse_control_diff / user_impulse_control_composite_score_baseline * 100) 
+
+pi_impulse_control_higher_pi <- pi_impulse_control_higher_pi %>% 
+  arrange(passport_id)
+
+
+pi_reaction_time <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_reaction_time_composite_score),
+  ) %>% 
+  na.omit() %>% 
+  janitor::clean_names()
+
+pi_reaction_time <- pi_reaction_time %>% 
+  arrange(passport_id)
+
+pi_reaction_time_higher_baseline <- pi_reaction_time %>% 
+  mutate(reaction_time_diff = user_reaction_time_composite_score_baseline - user_reaction_time_composite_score_post_injury_1) %>% 
+  filter(reaction_time_diff >= 0) %>% 
+  mutate(reaction_time_percent_dec = reaction_time_diff / user_reaction_time_composite_score_baseline * 100) 
+
+pi_reaction_time_higher_baseline <- pi_reaction_time_higher_baseline %>% 
+  arrange(passport_id)
+
+pi_reaction_time_higher_pi <- pi_reaction_time %>% 
+  mutate(reaction_time_diff = user_reaction_time_composite_score_post_injury_1 - user_reaction_time_composite_score_baseline) %>% 
+  filter(reaction_time_diff > 0) %>% 
+  mutate(reaction_time_percent_inc = reaction_time_diff / user_reaction_time_composite_score_baseline * 100) 
+
+pi_reaction_time_higher_pi <- pi_reaction_time_higher_pi %>% 
+  arrange(passport_id)
+
+
+pi_visual_motor <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_visual_motor_composite_score),
+  ) %>% 
+  na.omit() %>% 
+  janitor::clean_names()
+
+pi_visual_motor <- pi_visual_motor %>% 
+  arrange(passport_id)
+
+pi_visual_motor_higher_baseline <- pi_visual_motor %>% 
+  mutate(visual_motor_diff = user_visual_motor_composite_score_baseline - user_visual_motor_composite_score_post_injury_1) %>% 
+  filter(visual_motor_diff >= 0) %>% 
+  mutate(visual_motor_percent_dec = visual_motor_diff / user_visual_motor_composite_score_baseline * 100) 
+
+pi_visual_motor_higher_baseline <- pi_visual_motor_higher_baseline %>% 
+  arrange(passport_id)
+
+pi_visual_motor_higher_pi <- pi_visual_motor %>% 
+  mutate(visual_motor_diff = user_visual_motor_composite_score_post_injury_1 - user_visual_motor_composite_score_baseline) %>% 
+  filter(visual_motor_diff > 0) %>% 
+  mutate(visual_motor_percent_inc = visual_motor_diff / user_visual_motor_composite_score_baseline * 100) 
+
+pi_visual_motor_higher_pi <- pi_visual_motor_higher_pi %>% 
+  arrange(passport_id)
+
+#join all post-injury data
+head(pi_mem_verbal)
+head(pi_mem_visual)
+head(pi_impulse_control)
+head(pi_reaction_time)
+head(visual_motor)
+
+pi_all_1 <- full_join(pi_mem_verbal, pi_mem_visual)
+pi_all_2 <- full_join(pi_all_1, pi_impulse_control)
+pi_all_3 <- full_join(pi_all_2, pi_reaction_time)
+pi_all <- full_join(pi_all_3, pi_visual_motor)
+
+#join all higher baseline data
+head(pi_mem_verbal_higher_baseline)
+head(pi_mem_visual_higher_baseline)
+head(pi_impulse_control_higher_baseline)
+head(pi_reaction_time_higher_baseline)
+head(pi_visual_motor_higher_baseline)
+
+pi_b_1 <- full_join(pi_mem_verbal_higher_baseline, pi_mem_visual_higher_baseline)
+pi_b_2 <- full_join(pi_b_1, pi_impulse_control_higher_baseline)
+pi_b_3 <- full_join(pi_b_2, pi_reaction_time_higher_baseline)
+pi_all_higher_baseline <- full_join(pi_b_3, pi_visual_motor_higher_baseline)
+
+pi_all_higher_baseline_final <- pi_all_higher_baseline %>% 
+  na.omit()
+
+#join all higher post_inury 1 data 
+head(pi_mem_verbal_higher_pi)
+head(pi_mem_visual_higher_pi)
+head(pi_impulse_control_higher_pi)
+head(pi_reaction_time_higher_pi)
+head(pi_visual_motor_higher_pi)
+
+pi_i_1 <- full_join(pi_mem_verbal_higher_pi, pi_mem_visual_higher_pi)
+pi_i_2 <- full_join(pi_i_1, pi_impulse_control_higher_pi)
+pi_i_3 <- full_join(pi_i_2, pi_reaction_time_higher_pi)
+pi_all_higher_pi <- full_join(pi_i_3, pi_visual_motor_higher_pi)
+
+pi_all_higher_pi_final <- pi_all_higher_pi %>% 
+  na.omit()
+
+score_hist(pi_mem_verbal, user_memory_composite_score_verbal_baseline)
+score_diff_hist(pi_mem_verbal_higher_baseline, mem_verbal_diff)
+
+
+pi_diff_hist_higher_baseline <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "Point Decrease on Post-Injury 1",
+         y = "Number of Individuals")
+}
+
+pi_diff_hist_higher_pi <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "Point Increase on Post-Injury 1",
+         y = "Number of Individuals")
+}
+
+pi_diff_hist_higher_baseline(pi_mem_verbal_higher_baseline, mem_verbal_diff)
+pi_diff_hist_higher_pi(pi_mem_verbal_higher_pi, mem_verbal_diff)
+
+score_diff_hist(mem_verbal, memory_verbal_diff)
+
+percent_dec_hist_pi <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 100) +
+  scale_x_continuous("Percent Decrease on Post-Injury 1", labels = function(x) paste0(x, "%")) +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "Percent Decrease on Post-Injury 1",
+         y = "Number of Individuals")
+}
+
+percent_inc_hist_pi <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 100) +
+  scale_x_continuous("Percent Increase on Post-Injury 1", labels = function(x) paste0(x, "%")) +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "Percent Increase on Post-Injury 1",
+         y = "Number of Individuals")
+}
+
+percent_dec_hist_pi(pi_mem_verbal_higher_baseline, mem_verbal_percent_dec)
+percent_inc_hist_pi(pi_mem_verbal_higher_pi, mem_verbal_percent_inc)
+
+```
+
+
+## Verbal Memory Composite Score 
+The verbal memory composite score data set contains 7,951 individuals, suggesting the existence of a single missing score for one participant. 4,344 individuals were identified to have obtained a higher baseline score, while 3,607 individuals were identified to obtain a higher post-injury score. 
+
+### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 4,344 individuals who scored higher on the baseline test administration, the baseline mean verbal memory composite score was observed to be 69.71 points with a standard deviation of 9.9 points. The post-injury 1 mean verbal memory composite score was observed to be 56.07 points with a standard deviation of 17.1 points. The average point decrease from baseline to post-injury 1 test administration was observed to be 13.64 points with a standard deviation of 15.14 points. The minimum point decrease was 0 points, while the maximum point decrease was 82 points. The average percent decrease from baseline to post-injury 1 was observed to be a 19.56% decrease with a standard deviation of a 21.15% decrease. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_post_injury_1)
+```
+
+#### Score Decrease Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_verbal_higher_baseline, mem_verbal_diff)
+```
+
+#### Percent Decrease Summary
+
+```{r, include=TRUE}
+react_percent(pi_mem_verbal_higher_baseline, mem_verbal_percent_dec)
+```
+
+#### Score Decrease Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_baseline(pi_mem_verbal_higher_baseline, mem_verbal_diff)
+```
+
+#### Higher Baseline Raw Data
+```{r, include=TRUE}
+pi_mem_verbal_higher_baseline %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_memory_composite_score_verbal_baseline = colDef(name = "Baseline Score"),
+    user_memory_composite_score_verbal_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    mem_verbal_diff = colDef(name = "Point Dncrease"),
+    mem_verbal_percent_dec = colDef(name = "Percent Dncrease",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+### Higher Post-Injury 1 Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 3,607 individuals who scored higher on the post-injury 1 test administration, the baseline mean verbal memory composite score was observed to be 59.53 points with a standard deviation of 15.15 points. The post-injury 1 mean verbal memory composite score was observed to be 71.7 points with a standard deviation of 8.58 points. The average point increase from baseline to post-injury 1 test administration was observed to be 12.18 points with a standard deviation of 13.83 points. The minimum point increase was 1 point, while the maximum point increase was 82 points. The average percent increase from baseline to post-injury 1 was observed to be a 285.09% increase with a standard deviation of a 1,365.64% increase. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_post_injury_1)
+```
+
+#### Score Increase Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_verbal_higher_pi, mem_verbal_diff)
+```
+
+#### Percent Increase Summary
+
+```{r, include=TRUE}
+react_percent(pi_mem_verbal_higher_pi, mem_verbal_percent_inc)
+```
+
+#### Score Increase Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_pi(pi_mem_verbal_higher_pi, mem_verbal_diff)
+```
+
+#### Higher Post-Injury 1 Raw Data
+```{r, include=TRUE}
+pi_mem_verbal_higher_pi %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_memory_composite_score_verbal_baseline = colDef(name = "Baseline Score"),
+    user_memory_composite_score_verbal_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    mem_verbal_diff = colDef(name = "Point Increase"),
+    mem_verbal_percent_inc = colDef(name = "Percent Increase",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+
+
+## Visual Memory Composite Score 
+The visual memory composite score data set contains 7,952 individuals. 4,404 individuals were identified to have obtained a higher baseline score, while 3,548 individuals were identified to obtain a higher post-injury score. 
+
+### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 4,404 individuals who scored higher on the baseline test administration, the baseline mean visual memory composite score was observed to be 57.91 points with a standard deviation of 10.92 points. The post-injury 1 mean visual memory composite score was observed to be 45.79 points with a standard deviation of 13.4 points. The average point decrease from baseline to post-injury 1 test administration was observed to be 12.12 points with a standard deviation of 10.33 points. The minimum point decrease was 0 points, while the maximum point decrease was 78 points. The average percent decrease from baseline to post-injury 1 was observed to be a 21.01% decrease with a standard deviation of a 17.24% decrease. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_post_injury_1)
+```
+
+#### Score Decrease Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_visual_higher_baseline, mem_visual_diff)
+```
+
+#### Percent Decrease Summary
+
+```{r, include=TRUE}
+react_percent(pi_mem_visual_higher_baseline, mem_visual_percent_dec)
+```
+
+#### Score Decrease Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_baseline(pi_mem_visual_higher_baseline, mem_visual_diff)
+```
+
+#### Higher Baseline Raw Data
+```{r, include=TRUE}
+pi_mem_visual_higher_baseline %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_memory_composite_score_visual_baseline = colDef(name = "Baseline Score"),
+    user_memory_composite_score_visual_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    mem_visual_diff = colDef(name = "Point Dncrease"),
+    mem_visual_percent_dec = colDef(name = "Percent Dncrease",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+### Higher Post-Injury 1 Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 3,548 individuals who scored higher on the post-injury 1 test administration, the baseline mean visual memory composite score was observed to be 48.06 points with a standard deviation of 12.44 points. The post-injury 1 mean visual memory composite score was observed to be 59.23 points with a standard deviation of 10.56 points. The average point increase from baseline to post-injury 1 test administration was observed to be 11.17 points with a standard deviation of 9.01 points. The minimum point increase was 1 point, while the maximum point increase was 78 points. The average percent increase from baseline to post-injury 1 was observed to be a 65.19% increase with a standard deviation of a 482.34% increase. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_visual_higher_pi, user_memory_composite_score_visual_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_visual_higher_pi, user_memory_composite_score_visual_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_visual_higher_pi, user_memory_composite_score_visual_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_mem_visual_higher_pi, user_memory_composite_score_visual_post_injury_1)
+```
+
+#### Score Increase Summary
+
+```{r, include=TRUE}
+create_react(pi_mem_visual_higher_pi, mem_visual_diff)
+```
+
+#### Percent Increase Summary
+
+```{r, include=TRUE}
+react_percent(pi_mem_visual_higher_pi, mem_visual_percent_inc)
+```
+
+#### Score Increase Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_pi(pi_mem_visual_higher_pi, mem_visual_diff)
+```
+
+#### Higher Post-Injury 1 Raw Data
+```{r, include=TRUE}
+pi_mem_visual_higher_pi %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_memory_composite_score_visual_baseline = colDef(name = "Baseline Score"),
+    user_memory_composite_score_visual_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    mem_visual_diff = colDef(name = "Point Increase"),
+    mem_visual_percent_inc = colDef(name = "Percent Increase",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+
+## Impulse Control Composite Score 
+The impulse control composite score data set contains 7,952 individuals. 4,498 individuals were identified to have obtained a higher baseline score, while 3,454 individuals were identified to obtain a higher post-injury score. 
+
+### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 4,498 individuals who scored higher on the baseline test administration, the baseline mean impulse control composite score was observed to be 45.65 points with a standard deviation of 23.12 points. The post-injury 1 mean impulse control score was observed to be 21.02 points with a standard deviation of 20.27 points. The average point decrease from baseline to post-injury 1 test administration was observed to be 24.62 points with a standard deviation of 21.79 points. The minimum point decrease was 0 points, while the maximum point decrease was 73 points. The average percent decrease from baseline to post-injury 1 was observed to be a 50.94% decrease with a standard deviation of a 34.29% decrease. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_post_injury_1)
+```
+
+#### Score Decrease Summary
+
+```{r, include=TRUE}
+create_react(pi_impulse_control_higher_baseline, impulse_control_diff)
+```
+
+#### Percent Decrease Summary
+
+```{r, include=TRUE}
+react_percent(pi_impulse_control_higher_baseline, impulse_control_percent_dec)
+```
+
+#### Score Decrease Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_baseline(pi_impulse_control_higher_baseline, impulse_control_diff)
+```
+
+#### Higher Baseline Raw Data
+```{r, include=TRUE}
+pi_impulse_control_higher_baseline %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_impulse_control_composite_score_baseline = colDef(name = "Baseline Score"),
+    user_impulse_control_composite_score_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    impulse_control_diff = colDef(name = "Point Dncrease"),
+    impulse_control_percent_dec = colDef(name = "Percent Dncrease",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+### Higher Post-Injury 1 Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 3,454 individuals who scored higher on the post-injury 1 test administration, the baseline mean impulse control composite score was observed to be 17.9 points with a standard deviation of 18.43 points. The post-injury 1 mean impulse control composite score was observed to be 47.08 points with a standard deviation of 22.4 points. The average point increase from baseline to post-injury 1 test administration was observed to be 29.17 points with a standard deviation of 20.79 points. The minimum point increase was 1 point, while the maximum point increase was 73 points. The average percent increase from baseline to post-injury 1 was observed to be a 559.73% increase with a standard deviation of a 828.56% increase. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_impulse_control_higher_pi, user_impulse_control_composite_score_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_impulse_control_higher_pi, user_impulse_control_composite_score_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_impulse_control_higher_pi, user_impulse_control_composite_score_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_impulse_control_higher_pi, user_impulse_control_composite_score_post_injury_1)
+```
+
+#### Score Increase Summary
+
+```{r, include=TRUE}
+create_react(pi_impulse_control_higher_pi, impulse_control_diff)
+```
+
+#### Percent Increase Summary
+
+```{r, include=TRUE}
+react_percent(pi_impulse_control_higher_pi, impulse_control_percent_inc)
+```
+
+#### Score Increase Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_pi(pi_impulse_control_higher_pi, impulse_control_diff)
+```
+
+#### Higher Post-Injury 1 Raw Data
+```{r, include=TRUE}
+pi_impulse_control_higher_pi %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_impulse_control_composite_score_baseline = colDef(name = "Baseline Score"),
+    user_impulse_control_composite_score_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    impulse_control_diff = colDef(name = "Point Increase"),
+    impulse_control_percent_inc = colDef(name = "Percent Increase",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+## Reaction Time Composite Score 
+The reaction time composite score data set contains 7,952 individuals. 3,930 individuals were identified to have obtained a higher baseline score, while 4.022 individuals were identified to obtain a higher post-injury score. 
+
+### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 3,930 individuals who scored higher on the baseline test administration, the baseline mean reaction time composite score was observed to be 33.80 points with a standard deviation of 10.74 points. The post-injury 1 mean impulse control score was observed to be 26.83 points with a standard deviation of 7.46 points. The average point decrease from baseline to post-injury 1 test administration was observed to be 6.96 points with a standard deviation of 7.46 points. The minimum point decrease was 0 points, while the maximum point decrease was 107 points. The average percent decrease from baseline to post-injury 1 was observed to be a 18.79% decrease with a standard deviation of a 14.08% decrease. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_post_injury_1)
+```
+
+#### Score Decrease Summary
+
+```{r, include=TRUE}
+create_react(pi_reaction_time_higher_baseline, reaction_time_diff)
+```
+
+#### Percent Decrease Summary
+
+```{r, include=TRUE}
+react_percent(pi_reaction_time_higher_baseline, reaction_time_percent_dec)
+```
+
+#### Score Decrease Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_baseline(pi_reaction_time_higher_baseline, reaction_time_diff)
+```
+
+#### Higher Baseline Raw Data
+```{r, include=TRUE}
+pi_reaction_time_higher_baseline %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_reaction_time_composite_score_baseline = colDef(name = "Baseline Score"),
+    user_reaction_time_composite_score_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    reaction_time_diff = colDef(name = "Point Dncrease"),
+    reaction_time_percent_dec = colDef(name = "Percent Dncrease",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+### Higher Post-Injury 1 Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 4,022 individuals who scored higher on the post-injury 1 test administration, the baseline mean reaction time composite score was observed to be 27.17 points with a standard deviation of 7.24 points. The post-injury 1 mean reaction time composite score was observed to be 37.84 points with a standard deviation of 14.52 points. The average point increase from baseline to post-injury 1 test administration was observed to be 10.67 points with a standard deviation of 12.24 points. The minimum point increase was 1 point, while the maximum point increase was 132 points. The average percent increase from baseline to post-injury 1 was observed to be a 41.92% increase with a standard deviation of a 50.45% increase. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_reaction_time_higher_pi, user_reaction_time_composite_score_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_reaction_time_higher_pi, user_reaction_time_composite_score_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_reaction_time_higher_pi, user_reaction_time_composite_score_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_reaction_time_higher_pi, user_reaction_time_composite_score_post_injury_1)
+```
+
+#### Score Increase Summary
+
+```{r, include=TRUE}
+create_react(pi_reaction_time_higher_pi, reaction_time_diff)
+```
+
+#### Percent Increase Summary
+
+```{r, include=TRUE}
+react_percent(pi_reaction_time_higher_pi, reaction_time_percent_inc)
+```
+
+#### Score Increase Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_pi(pi_reaction_time_higher_pi, reaction_time_diff)
+```
+
+#### Higher Post-Injury 1 Raw Data
+```{r, include=TRUE}
+pi_reaction_time_higher_pi %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_reaction_time_composite_score_baseline = colDef(name = "Baseline Score"),
+    user_reaction_time_composite_score_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    reaction_time_diff = colDef(name = "Point Increase"),
+    reaction_time_percent_inc = colDef(name = "Percent Increase",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+
+## Visual Motor Composite Score 
+The impulse control composite score data set contains 7,951 individuals, suggesting the existence of a single missing score for one participant. 3,494 individuals were identified to have obtained a higher baseline score, while 4,457 individuals were identified to obtain a higher post-injury score. 
+
+### Higher Baseline Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 3,494 individuals who scored higher on the baseline test administration, the baseline mean visual motor composite score was observed to be 1,208.94 points with a standard deviation of 292.99 points. The post-injury 1 mean visual motor score was observed to be 969.49 points with a standard deviation of 336.45 points. The average point decrease from baseline to post-injury 1 test administration was observed to be 239.45 points with a standard deviation of 231.25 points. The minimum point decrease was 0 points, while the maximum point decrease was 1,923 points. The average percent decrease from baseline to post-injury 1 was observed to be a 20.21% decrease with a standard deviation of a 19.31% decrease. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_post_injury_1)
+```
+
+#### Score Decrease Summary
+
+```{r, include=TRUE}
+create_react(pi_visual_motor_higher_baseline, visual_motor_diff)
+```
+
+#### Percent Decrease Summary
+
+```{r, include=TRUE}
+react_percent(pi_visual_motor_higher_baseline, visual_motor_percent_dec)
+```
+
+#### Score Decrease Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_baseline(pi_visual_motor_higher_baseline, visual_motor_diff)
+```
+
+#### Higher Baseline Raw Data
+```{r, include=TRUE}
+pi_visual_motor_higher_baseline %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_visual_motor_composite_score_baseline = colDef(name = "Baseline Score"),
+    user_visual_motor_composite_score_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    visual_motor_diff = colDef(name = "Point Dncrease"),
+    visual_motor_percent_dec = colDef(name = "Percent Dncrease",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+
+### Higher Post-Injury 1 Score Summary {.tabset .tabset-fade .tabset-pills}
+
+Of the 4,457 individuals who scored higher on the post-injury 1 test administration, the baseline mean visual motor composite score was observed to be 1,013.85 points with a standard deviation of 296.22 points. The post-injury 1 mean visual motor composite score was observed to be 1,229.04 points with a standard deviation of 287.05 points. The average point increase from baseline to post-injury 1 test administration was observed to be 215.19 points with a standard deviation of 179.09 points. The minimum point increase was 1 point, while the maximum point increase was 1,561 points. The average percent increase from baseline to post-injury 1 was observed to be a 39.89% increase with a standard deviation of a 206.40% increase. 
+
+#### Baseline Score Summary
+
+```{r, include=TRUE}
+create_react(pi_visual_motor_higher_pi, user_visual_motor_composite_score_baseline)
+```
+
+#### Baseline Score Plot
+```{r, include=TRUE}
+score_hist(pi_visual_motor_higher_pi, user_visual_motor_composite_score_baseline)
+```
+
+#### Post-Injury Score Summary
+
+```{r, include=TRUE}
+create_react(pi_visual_motor_higher_pi, user_visual_motor_composite_score_post_injury_1)
+```
+
+#### Post-Injury Score Plot
+```{r, include=TRUE}
+score_hist(pi_visual_motor_higher_pi, user_visual_motor_composite_score_post_injury_1)
+```
+
+#### Score Increase Summary
+
+```{r, include=TRUE}
+create_react(pi_visual_motor_higher_pi, visual_motor_diff)
+```
+
+#### Percent Increase Summary
+
+```{r, include=TRUE}
+react_percent(pi_visual_motor_higher_pi, visual_motor_percent_inc)
+```
+
+#### Score Increase Histogram
+```{r, include=TRUE}
+pi_diff_hist_higher_pi(pi_visual_motor_higher_pi, visual_motor_diff)
+```
+
+#### Higher Post-Injury 1 Raw Data
+```{r, include=TRUE}
+pi_visual_motor_higher_pi %>% 
+  select(-row, -test_date_baseline, -test_date_post_injury_1) %>% 
+  reactable(columns = list(
+    passport_id = colDef(name = "Individual"),
+    user_visual_motor_composite_score_baseline = colDef(name = "Baseline Score"),
+    user_visual_motor_composite_score_post_injury_1 = colDef(name = "Post-Injury 1 Score"),
+    visual_motor_diff = colDef(name = "Point Increase"),
+    visual_motor_percent_inc = colDef(name = "Percent Increase",
+                                       format = colFormat(digits = 2, 
+                                                          separators = TRUE, 
+                                                          suffix = "%"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
