@@ -2073,7 +2073,7 @@ Of the 4,344 individuals who scored higher on the baseline test administration, 
 create_react(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_baseline)
 ```
@@ -2084,7 +2084,7 @@ score_hist(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_bas
 create_react(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_verbal_higher_baseline, user_memory_composite_score_verbal_post_injury_1)
 ```
@@ -2140,7 +2140,7 @@ Of the 3,607 individuals who scored higher on the post-injury 1 test administrat
 create_react(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_baseline)
 ```
@@ -2151,7 +2151,7 @@ score_hist(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_baseline)
 create_react(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_verbal_higher_pi, user_memory_composite_score_verbal_post_injury_1)
 ```
@@ -2212,7 +2212,7 @@ Of the 4,404 individuals who scored higher on the baseline test administration, 
 create_react(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_baseline)
 ```
@@ -2223,7 +2223,7 @@ score_hist(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_bas
 create_react(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_visual_higher_baseline, user_memory_composite_score_visual_post_injury_1)
 ```
@@ -2279,7 +2279,7 @@ Of the 3,548 individuals who scored higher on the post-injury 1 test administrat
 create_react(pi_mem_visual_higher_pi, user_memory_composite_score_visual_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_visual_higher_pi, user_memory_composite_score_visual_baseline)
 ```
@@ -2290,7 +2290,7 @@ score_hist(pi_mem_visual_higher_pi, user_memory_composite_score_visual_baseline)
 create_react(pi_mem_visual_higher_pi, user_memory_composite_score_visual_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_mem_visual_higher_pi, user_memory_composite_score_visual_post_injury_1)
 ```
@@ -2350,7 +2350,7 @@ Of the 4,498 individuals who scored higher on the baseline test administration, 
 create_react(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_baseline)
 ```
@@ -2361,7 +2361,7 @@ score_hist(pi_impulse_control_higher_baseline, user_impulse_control_composite_sc
 create_react(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_impulse_control_higher_baseline, user_impulse_control_composite_score_post_injury_1)
 ```
@@ -2417,7 +2417,7 @@ Of the 3,454 individuals who scored higher on the post-injury 1 test administrat
 create_react(pi_impulse_control_higher_pi, user_impulse_control_composite_score_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_impulse_control_higher_pi, user_impulse_control_composite_score_baseline)
 ```
@@ -2428,7 +2428,7 @@ score_hist(pi_impulse_control_higher_pi, user_impulse_control_composite_score_ba
 create_react(pi_impulse_control_higher_pi, user_impulse_control_composite_score_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_impulse_control_higher_pi, user_impulse_control_composite_score_post_injury_1)
 ```
@@ -2487,7 +2487,7 @@ Of the 3,930 individuals who scored higher on the baseline test administration, 
 create_react(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_baseline)
 ```
@@ -2498,7 +2498,7 @@ score_hist(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_
 create_react(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_reaction_time_higher_baseline, user_reaction_time_composite_score_post_injury_1)
 ```
@@ -2554,7 +2554,7 @@ Of the 4,022 individuals who scored higher on the post-injury 1 test administrat
 create_react(pi_reaction_time_higher_pi, user_reaction_time_composite_score_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_reaction_time_higher_pi, user_reaction_time_composite_score_baseline)
 ```
@@ -2565,7 +2565,7 @@ score_hist(pi_reaction_time_higher_pi, user_reaction_time_composite_score_baseli
 create_react(pi_reaction_time_higher_pi, user_reaction_time_composite_score_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_reaction_time_higher_pi, user_reaction_time_composite_score_post_injury_1)
 ```
@@ -2625,7 +2625,7 @@ Of the 3,494 individuals who scored higher on the baseline test administration, 
 create_react(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_baseline)
 ```
@@ -2636,7 +2636,7 @@ score_hist(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_ba
 create_react(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_visual_motor_higher_baseline, user_visual_motor_composite_score_post_injury_1)
 ```
@@ -2692,7 +2692,7 @@ Of the 4,457 individuals who scored higher on the post-injury 1 test administrat
 create_react(pi_visual_motor_higher_pi, user_visual_motor_composite_score_baseline)
 ```
 
-#### Baseline Score Plot
+#### Baseline Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_visual_motor_higher_pi, user_visual_motor_composite_score_baseline)
 ```
@@ -2703,7 +2703,7 @@ score_hist(pi_visual_motor_higher_pi, user_visual_motor_composite_score_baseline
 create_react(pi_visual_motor_higher_pi, user_visual_motor_composite_score_post_injury_1)
 ```
 
-#### Post-Injury Score Plot
+#### Post-Injury Score Histogram
 ```{r, include=TRUE}
 score_hist(pi_visual_motor_higher_pi, user_visual_motor_composite_score_post_injury_1)
 ```
