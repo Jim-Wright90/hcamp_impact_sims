@@ -840,7 +840,7 @@ t_sum %>%
     bordered = TRUE)
 ```
 
-18,748 individuals completed two baseline assessments. 18,556 individuals achieved a higher score on at least one out of five composite scores on the second baseline assessment. 1,130 individuals achieved a higher score on all five composite scores on the second baseline assessment. 
+18,748 individuals completed two baseline assessments. 18,556 individuals (98.96%) achieved a higher score on at least one out of five composite scores on the second baseline assessment. 1,130 individuals (6.03%) achieved a higher score on all five composite scores on the second baseline assessment. 
 
 Five composite scores: 
 
@@ -856,7 +856,7 @@ Five composite scores:
 
 ## Verbal Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-11,034 individuals increased their verbal memory composite score on the second baseline test administration. 
+11,034 individuals (58.85%) increased their verbal memory composite score on the second baseline test administration. 
 
 ### Baseline 1 Summary 
 
@@ -1064,7 +1064,7 @@ mem_verbal %>%
 
 ## Visual Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-11,692 individuals increased their visual memory composite score on the second baseline test administration. 
+11,692 individuals (62.36%) increased their visual memory composite score on the second baseline test administration. 
 
 
 ### Baseline 1 Summary 
@@ -1213,7 +1213,7 @@ mem_visual %>%
 
 ## Impulse Control Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-10,232 individuals increased their impulse control composite score on the second baseline test administration. 
+10,232 individuals (54.58%) increased their impulse control composite score on the second baseline test administration. 
 
 ### Baseline 1 Summary 
 
@@ -1361,7 +1361,7 @@ impulse_control %>%
 
 ## Reaction Time Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-7,654 individuals increased their reaction time composite score on the second baseline test administration. 
+7,654 individuals (40.83%) increased their reaction time composite score on the second baseline test administration. 
 
 ### Baseline 1 Summary 
 
@@ -1516,7 +1516,7 @@ reaction_time %>%
 
 ## Visual Motor Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-14,376 individuals increased their visual motor composite score on the second baseline test administration. 
+14,376 individuals (76.68%) increased their visual motor composite score on the second baseline test administration. 
 
 ### Baseline 1 Summary 
 
