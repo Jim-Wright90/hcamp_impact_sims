@@ -759,6 +759,7 @@ create_react(time_data2, time_between)
 
 baseline_tbl1 <- baseline_all_positive %>% 
   select(-time_between)
+
 ```
 
 To calculate the percent increase from first to second baseline test administrations, the dataset was manipulated in the following ways to isolate individuals who received two baseline test administrations:
@@ -779,19 +780,24 @@ To calculate the percent increase from first to second baseline test administrat
     
 ```{r baseline test data, include=FALSE}
 mem_verbal_all <- mem_verbal_all %>% 
-  arrange(passport_id)
+  arrange(passport_id) %>% 
+  na.omit()
 
 mem_visual_all <- mem_visual_all %>% 
-  arrange(passport_id)
+  arrange(passport_id) %>% 
+  na.omit()
 
 impulse_control_all <- impulse_control_all %>% 
-  arrange(passport_id)
+  arrange(passport_id) %>% 
+  na.omit()
 
 reaction_time_all <- reaction_time_all %>% 
-  arrange(passport_id)
+  arrange(passport_id) %>% 
+  na.omit()
 
 visual_motor_all <- visual_motor_all %>% 
-  arrange(passport_id)
+  arrange(passport_id) %>% 
+  na.omit()
 
 all_join1 <- full_join(mem_verbal_all, mem_visual_all)
 
@@ -810,7 +816,7 @@ total_one_positive <- baseline_final %>%
 total_all_positive <- baseline_all_positive %>% 
   summarize(length(passport_id))
 
-t_sum <- data.frame("Level" = c("Two Baseline Assessments", "Gain on at least one Baseline 2 Composite Score", "Gain on all Baseline 2 Composite Scores"), "Total" = c(18748, 18556, 1130))
+t_sum <- data.frame("Level" = c("Two Baseline Assessments", "Gain on at least one Baseline 2 Composite Score", "Gain on all Baseline 2 Composite Scores"), "Total" = c(18739, 18556, 1130))
 
 
 score_hist <- function(df, x) {
@@ -840,7 +846,7 @@ t_sum %>%
     bordered = TRUE)
 ```
 
-18,748 individuals completed two baseline assessments. 18,556 individuals (98.96%) achieved a higher score on at least one out of five composite scores on the second baseline assessment. 1,130 individuals (6.03%) achieved a higher score on all five composite scores on the second baseline assessment. 
+18,739 individuals completed two baseline assessments. 18,556 individuals (99.02%) achieved a higher score on at least one out of five composite scores on the second baseline assessment. 1,130 individuals (6.03%) achieved a higher score on all five composite scores on the second baseline assessment. 
 
 Five composite scores: 
 
@@ -856,7 +862,7 @@ Five composite scores:
 
 ## Verbal Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-11,034 individuals (58.85%) increased their verbal memory composite score on the second baseline test administration. 
+11,034 individuals (58.88%) increased their verbal memory composite score on the second baseline test administration. 
 
 ### Baseline 1 Summary 
 
@@ -1061,10 +1067,92 @@ mem_verbal %>%
 ```
 
 
+## Verbal Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean verbal memory composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 65.83) than the first baseline test administration (*M* = 64.81), *t*(18737) = -7.328, *p* < .01. 
+```{r, include=FALSE}
+
+head(mem_verbal_all)
+
+mem_verbal_all_long <- mem_verbal_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+
+ggplot(mem_verbal_all_long, aes(baseline_time, score)) +
+  geom_boxplot() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "",
+         y = "Score")
+
+box_p <- function(df, x, y) {
+  ggplot(df, aes({{x}}, {{y}})) +
+  geom_boxplot() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "",
+         y = "Score")
+}
+
+box_p(mem_verbal_all_long, baseline_time, score)
+
+
+
+mem_verbal_1 <- mem_verbal_all$user_memory_composite_score_verbal_1
+mem_verbal_2 <- mem_verbal_all$user_memory_composite_score_verbal_2
+
+mem_verbal_res <- t.test(mem_verbal_1, mem_verbal_2, paired = TRUE)
+
+mem_verbal_res
+
+mem_verbal_res$p.value
+mem_verbal_res$estimate
+mem_verbal_res$statistic
+
+mean_2(mem_verbal_all$user_memory_composite_score_verbal_1)
+mean_2(mem_verbal_all$user_memory_composite_score_verbal_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(mem_verbal_all_long, baseline_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+mem_verbal_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_verbal_all, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_verbal_all, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_verbal_all, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_verbal_all, user_memory_composite_score_verbal_2)
+```
+
 
 ## Visual Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
-11,692 individuals (62.36%) increased their visual memory composite score on the second baseline test administration. 
+11,692 individuals (62.39%) increased their visual memory composite score on the second baseline test administration. 
 
 
 ### Baseline 1 Summary 
@@ -1209,6 +1297,59 @@ mem_visual %>%
 
 ```
 
+
+## Visual Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the mean visual memory composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 56.70) than the first baseline test administration (*M* = 53.38), *t*(18738) = -33.146, *p* < .01. 
+```{r, include=FALSE}
+mem_visual_all_long <- mem_visual_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+
+
+mem_visual_1 <- mem_visual_all$user_memory_composite_score_visual_1
+mem_visual_2 <- mem_visual_all$user_memory_composite_score_visual_2
+
+mem_visual_res <- t.test(mem_visual_1, mem_visual_2, paired = TRUE)
+
+mem_visual_res
+
+mean_2(mem_visual_all$user_memory_composite_score_visual_1)
+mean_2(mem_visual_all$user_memory_composite_score_visual_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(mem_visual_all_long, baseline_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+mem_visual_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_visual_all, user_memory_composite_score_visual_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_visual_all, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_visual_all, user_memory_composite_score_visual_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_visual_all, user_memory_composite_score_visual_2)
+```
 
 
 ## Impulse Control Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
@@ -1356,6 +1497,61 @@ impulse_control %>%
     searchable = TRUE
   )
 
+```
+
+
+## Impulse Control Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the impulse control composite scores of all 18,739 individuals who completed two baseline assessments. On average, the difference in performance between the first baseline test administration (*M* = 33.81) and second baseline test administration (*M* = 33.97) was not statistically significant, *t*(18738) = -0.634, *p* = .526.
+
+```{r, include=FALSE}
+impulse_control_all_long <- impulse_control_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_impulse_control_composite_",
+    values_to = "score"
+  )
+
+
+impulse_control_1 <- impulse_control_all$user_impulse_control_composite_score_1
+impulse_control_2 <- impulse_control_all$user_impulse_control_composite_score_2
+
+impulse_control_res <- t.test(impulse_control_1, impulse_control_2, paired = TRUE)
+
+impulse_control_res
+
+mean_2(impulse_control_all$user_impulse_control_composite_score_1)
+mean_2(impulse_control_all$user_impulse_control_composite_score_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(impulse_control_all_long, baseline_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+impulse_control_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(impulse_control_all, user_impulse_control_composite_score_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(impulse_control_all, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(impulse_control_all, user_impulse_control_composite_score_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(impulse_control_all, user_impulse_control_composite_score_2)
 ```
 
 
@@ -1514,6 +1710,60 @@ reaction_time %>%
 ```
 
 
+## Reaction Time Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the reaction time composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the first baseline test administration (*M* = 31.08) than the second baseline test administration (*M* = 28.87), *t*(18737) = 28.276, *p* < .01. 
+```{r, include=FALSE}
+reaction_time_all_long <- reaction_time_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_reaction_time_composite_",
+    values_to = "score"
+  )
+
+
+reaction_time_1 <- reaction_time_all$user_reaction_time_composite_score_1
+reaction_time_2 <- reaction_time_all$user_reaction_time_composite_score_2
+
+reaction_time_res <- t.test(reaction_time_1, reaction_time_2, paired = TRUE)
+
+reaction_time_res
+
+mean_2(reaction_time_all$user_reaction_time_composite_score_1)
+mean_2(reaction_time_all$user_reaction_time_composite_score_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(reaction_time_all_long, baseline_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+reaction_time_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(reaction_time_all, user_reaction_time_composite_score_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(reaction_time_all, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(reaction_time_all, user_reaction_time_composite_score_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(reaction_time_all, user_reaction_time_composite_score_2)
+```
+
+
 ## Visual Motor Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
 14,376 individuals (76.68%) increased their visual motor composite score on the second baseline test administration. 
@@ -1667,6 +1917,62 @@ visual_motor %>%
     searchable = TRUE
   )
 ```
+
+## Visual Motor Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the reaction time composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 1,222.16) than the first baseline test administration (*M* = 1,066.37), *t*(18738) = -87.458, *p* < .01. 
+```{r, include=FALSE}
+visual_motor_all_long <- visual_motor_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_visual_motor_composite_",
+    values_to = "score"
+  )
+
+
+visual_motor_1 <- visual_motor_all$user_visual_motor_composite_score_1
+visual_motor_2 <- visual_motor_all$user_visual_motor_composite_score_2
+
+visual_motor_res <- t.test(visual_motor_1, visual_motor_2, paired = TRUE)
+
+visual_motor_res
+
+mean_2(visual_motor_all$user_visual_motor_composite_score_1)
+mean_2(visual_motor_all$user_visual_motor_composite_score_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(visual_motor_all_long, baseline_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+visual_motor_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(visual_motor_all, user_visual_motor_composite_score_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(visual_motor_all, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(visual_motor_all, user_visual_motor_composite_score_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(visual_motor_all, user_visual_motor_composite_score_2)
+```
+
+## Paired *T*-Test Summary
+The results of the paired *t*-tests across all five composite scores for comparison of baseline performance identified that individuals, on average, scored significantly higher on the second baseline test administration of the verbal memory, visual memory, and visual motor composites. Conversely, individuals were identified to score, on average, significantly higher on the first baseline test administration of the reaction time composite. The difference in baseline performance on the impulse control composite between first and second test administrations was identified to not be significant. 
 
 # What is the duration of time between baseline test administrations? {.tabset .tabset-fade .tabset-pills}
 ```{r test time, include=FALSE}
