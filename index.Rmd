@@ -1974,6 +1974,7 @@ score_hist(visual_motor_all, user_visual_motor_composite_score_2)
 ## Paired *T*-Test Summary
 The results of the paired *t*-tests across all five composite scores for comparison of baseline performance identified that individuals, on average, scored significantly higher on the second baseline test administration of the verbal memory, visual memory, and visual motor composites. Conversely, individuals were identified to score, on average, significantly higher on the first baseline test administration of the reaction time composite. The difference in baseline performance on the impulse control composite between first and second test administrations was identified to not be significant. 
 
+
 # What is the duration of time between baseline test administrations? {.tabset .tabset-fade .tabset-pills}
 ```{r test time, include=FALSE}
 time_data_baseline_1 <- baseline_final %>% 
@@ -1981,6 +1982,10 @@ time_data_baseline_1 <- baseline_final %>%
   mutate(time_between = as.numeric(time_between))
 
 time_data_baseline_2 <- baseline_all_positive %>% 
+  select(passport_id, test_date_1, test_date_2, time_between) %>% 
+  mutate(time_between = as.numeric(time_between))
+
+time_data_baseline_3 <- all_double_baseline %>% 
   select(passport_id, test_date_1, test_date_2, time_between) %>% 
   mutate(time_between = as.numeric(time_between))
 
@@ -1998,7 +2003,7 @@ time_react <- function(df, var) {
         SD = colDef(format = colFormat(separators = TRUE, suffix = " days")),
         Min = colDef(format = colFormat(separators = TRUE, suffix = " days")),
         Max = colDef(format = colFormat(separators = TRUE, suffix = " days")),
-        Total = colDef(format = colFormat(separators = TRUE))
+        Total = colDef(format = colFormat(separators = TRUE, suffix = " individuals"))
       ))
 }
 
@@ -2047,11 +2052,22 @@ time_react(time_data_baseline_2, time_between)
 time_hist(time_data_baseline_2, time_between)
 ```
 
+## Table 3
+Of the 18,739 individuals who completed two baseline assessments, the average number of days between test dates was observed to be 637.31 days with a standard deviation of 246.49 days. The minium number of days between baseline test administrations was observed to be 0 days, while the maximum number of days was observed to be 2,737 days. 
+```{r}
+time_react(time_data_baseline_3, time_between)
+```
+
+## Plot 3
+```{r}
+time_hist(time_data_baseline_3, time_between)
+```
+
 ## Time Difference Raw Data
 
-The data set below contains the raw data for the time difference between baseline test administrations for the 18,556 individuals who achieved at least one higher composite score on the second baseline test administration.  
+The data set below contains the raw data for the time difference between baseline test administrations for all 18,739 individuals who completed two baseline assessments. 
 ```{r, include=TRUE}
-time_data_baseline_1 %>% 
+time_data_baseline_3 %>% 
   reactable(columns = list(
     passport_id = colDef(name = "Individual"),
     test_date_1 = colDef(name = "Baseline Date 1"),
@@ -2070,6 +2086,145 @@ time_data_baseline_1 %>%
   )
 ```
 
+
+# What is the relation between the duration of time between baseline test administrations and the difference in obtained composite scores? 
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+A linear regression model was utilized to evaluate the relation between the duration of time between baseline test administrations and the difference in verbal memory composite scores between the two baseline assessments. The results of the model were not significant (*p* > .05) and accounted for less that .01% of the variance in the difference between baseline verbal memory composite scores. Therefore, it is suggested there is not a relation between the duration of time between baseline test administrations and difference in verbal memory composite scores. 
+```{r, include=FALSE}
+head(all_double_baseline)
+
+mean_2(all_double_baseline$time_between)
+
+mod_baselines <- all_double_baseline %>% 
+  mutate(time_between = as.numeric(time_between))
+
+mean_2(mod_baselines$time_between)
+
+mod_baselines2 <- mod_baselines %>% 
+  select(passport_id,
+         time_between,
+         memory_verbal_diff,
+         memory_visual_diff,
+         impulse_control_diff,
+         reaction_time_diff,
+         visual_motor_diff)
+
+mod_baselines2_long <- mod_baselines2 %>% 
+  pivot_longer(
+    cols = c(3:7),
+    names_to = "composite",
+    values_to = "difference"
+  )
+
+#diff = baseline 2 - baseline 1
+
+mod <- lm(memory_verbal_diff ~ time_between, mod_baselines)
+summary(mod)
+
+mod2 <- lm(memory_visual_diff ~ time_between, mod_baselines)
+summary(mod2)
+
+mod3 <- lm(impulse_control_diff ~ time_between, mod_baselines)
+summary(mod3)
+
+mod4 <- lm(reaction_time_diff ~ time_between, mod_baselines)
+summary(mod4)
+
+mod5 <- lm(visual_motor_diff ~ time_between, mod_baselines)
+summary(mod5)
+
+# 4 and 5 may be significant
+
+ggplot(mod_baselines, aes(memory_verbal_diff, time_between)) +
+  geom_smooth(method = "lm",
+              se = FALSE) +
+  geom_point(color = "gray40") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+  labs(x = "Memory Verbal Score Difference",
+       y = "Number of Days")
+
+sc_plt <- function(df, x, y) {
+  ggplot(df, aes({{x}}, {{y}})) +
+  geom_smooth(method = "lm",
+              se = FALSE) +
+  geom_point(color = "gray40") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+  labs(x = "Score Difference",
+       y = "Number of Days")
+}
+
+sc_plt(mod_baselines, memory_verbal_diff, time_between)
+```
+
+### Scatterplot
+```{r}
+sc_plt(mod_baselines, memory_verbal_diff, time_between)
+```
+
+### Model
+```{r}
+summary(mod)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+A linear regression model was utilized to evaluate the relation between the duration of time between baseline test administrations and the difference in visual memory composite scores between the two baseline assessments. The results of the model were not significant (*p* > .05) and accounted for less that .01% of the variance in the difference between baseline visual memory composite scores. Therefore, it is suggested there is not a relation between the duration of time between baseline test administrations and difference in visual memory composite scores. 
+
+### Scatterplot
+```{r}
+sc_plt(mod_baselines, memory_visual_diff, time_between)
+```
+
+### Model
+```{r}
+summary(mod2)
+```
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+A linear regression model was utilized to evaluate the relation between the duration of time between baseline test administrations and the difference in impulse control composite scores between the two baseline assessments. The results of the model were not significant (*p* > .05) and accounted for less that .01% of the variance in the difference between baseline impulse control composite scores. Therefore, it is suggested there is not a relation between the duration of time between baseline test administrations and difference in impulse control composite scores. 
+
+### Scatterplot
+```{r}
+sc_plt(mod_baselines, impulse_control_diff, time_between)
+```
+
+### Model
+```{r}
+summary(mod3)
+```
+
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+A linear regression model was utilized to evaluate the relation between the duration of time between baseline test administrations and the difference in reaction time composite scores between the two baseline assessments. The results of the model were significant (*p* < .01); however, the model only accounted for less that .20% of the variance in the difference between baseline reaction time composite scores. Therefore, it is suggested there is not a strong relation between the duration of time between baseline test administrations and difference in reaction time composite scores. 
+
+### Scatterplot
+```{r}
+sc_plt(mod_baselines, reaction_time_diff, time_between)
+```
+
+### Model
+```{r}
+summary(mod4)
+```
+
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+A linear regression model was utilized to evaluate the relation between the duration of time between baseline test administrations and the difference in visual motor composite scores between the two baseline assessments. The results of the model were significant (*p* < .05) and accounted for 2.2% of the variance in the difference between baseline visual motor composite scores. The model suggests that a one day increase in the number of days between baseline assessments was associated with a 0.15 point increase on the second baseline assessment. However, the rather small adjusted *r* value (.022) suggests there is not a strong relation between the duration of time between baseline test administrations and difference in visual motor composite scores.
+
+### Scatterplot
+```{r}
+sc_plt(mod_baselines, visual_motor_diff, time_between)
+```
+
+### Model
+```{r}
+summary(mod5)
+```
 
 # What is the percent decrease in composite score from baseline to post-injury 1 test administration? 
 
@@ -2266,6 +2421,9 @@ pi_all_1 <- full_join(pi_mem_verbal, pi_mem_visual)
 pi_all_2 <- full_join(pi_all_1, pi_impulse_control)
 pi_all_3 <- full_join(pi_all_2, pi_reaction_time)
 pi_all <- full_join(pi_all_3, pi_visual_motor)
+
+pi_all <- pi_all %>% 
+  na.omit()
 
 #join all higher baseline data
 head(pi_mem_verbal_higher_baseline)
@@ -2502,7 +2660,84 @@ pi_mem_verbal_higher_pi %>%
   )
 ```
 
+## Verbal Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
 
+A paired *T*-test was used to compare the mean verbal memory composite scores of all 7,951 individuals who completed a baseline and post-injury 1 test. On average, individuals scored significantly higher on the baseline test administration (*M* = 65.09) than the post-injury 1 test administration (*M* = 63.16), *t*(7950) = 8.85, *p* < .01. 
+```{r, include=FALSE}
+head(pi_all)
+
+pi_all <- pi_all %>% 
+  mutate(mem_verbal_diff = user_memory_composite_score_verbal_baseline - user_memory_composite_score_verbal_post_injury_1,
+         mem_visual_diff = user_memory_composite_score_visual_baseline - user_memory_composite_score_visual_post_injury_1,
+         impulse_control_diff = user_impulse_control_composite_score_baseline - user_impulse_control_composite_score_post_injury_1,
+         reaction_time_diff = user_reaction_time_composite_score_baseline - user_reaction_time_composite_score_post_injury_1,
+         visual_motor_diff = user_visual_motor_composite_score_baseline - user_visual_motor_composite_score_post_injury_1)
+
+
+pi_mem_verbal_t <- pi_mem_verbal %>% 
+  mutate(mem_verbal_diff = user_memory_composite_score_verbal_baseline - user_memory_composite_score_verbal_post_injury_1)
+
+pi_mem_verbal_all_long <- pi_mem_verbal_t %>% 
+  select(passport_id, test_date_baseline, test_date_post_injury_1, user_memory_composite_score_verbal_baseline, user_memory_composite_score_verbal_post_injury_1, mem_verbal_diff)  %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "test_time",
+    names_prefix = "user_memory_composite_score_verbal_",
+    values_to = "score"
+  )
+
+ggplot(pi_mem_verbal_all_long, aes(test_time, score)) +
+  geom_boxplot() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_line(color = "gray80")) +
+    labs(x = "",
+         y = "Score")
+
+box_p(pi_mem_verbal_all_long, test_time, score)
+
+
+
+pi_mem_verbal_baseline <- pi_mem_verbal_t$user_memory_composite_score_verbal_baseline
+pi_mem_verbal_pi <- pi_mem_verbal_t$user_memory_composite_score_verbal_post_injury_1
+
+pi_mem_verbal_res <- t.test(pi_mem_verbal_baseline, pi_mem_verbal_pi, paired = TRUE)
+
+pi_mem_verbal_res
+
+mean_2(pi_mem_verbal_t$user_memory_composite_score_verbal_baseline)
+mean_2(pi_mem_verbal_t$user_memory_composite_score_verbal_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(pi_mem_verbal_all_long, test_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+pi_mem_verbal_res
+```
+
+### Baseline Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_mem_verbal_t, user_memory_composite_score_verbal_baseline)
+```
+
+### Baseline Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_mem_verbal_t, user_memory_composite_score_verbal_baseline)
+```
+
+### Post-Injury Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_mem_verbal_t, user_memory_composite_score_verbal_post_injury_1)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_mem_verbal_t, user_memory_composite_score_verbal_post_injury_1)
+```
 
 
 ## Visual Memory Composite Score 
@@ -2642,6 +2877,63 @@ pi_mem_visual_higher_pi %>%
 ```
 
 
+## Visual Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean visual memory composite scores of all 7,952 individuals who completed a baseline and post-injury 1 test. On average, individuals scored significantly higher on the baseline test administration (*M* = 53.51) than the post-injury 1 test administration (*M* = 51.79), *t*(7951) = 10.18, *p* < .01. 
+```{r, include=FALSE}
+pi_mem_visual_t <- pi_mem_visual %>% 
+  mutate(mem_visual_diff = user_memory_composite_score_visual_baseline - user_memory_composite_score_visual_post_injury_1)
+
+pi_mem_visual_all_long <- pi_mem_visual_t %>% 
+  select(passport_id, test_date_baseline, test_date_post_injury_1, user_memory_composite_score_visual_baseline, user_memory_composite_score_visual_post_injury_1, mem_visual_diff)  %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "test_time",
+    names_prefix = "user_memory_composite_score_visual_",
+    values_to = "score"
+  )
+
+pi_mem_visual_baseline <- pi_mem_visual_t$user_memory_composite_score_visual_baseline
+pi_mem_visual_pi <- pi_mem_visual_t$user_memory_composite_score_visual_post_injury_1
+
+pi_mem_visual_res <- t.test(pi_mem_visual_baseline, pi_mem_visual_pi, paired = TRUE)
+
+pi_mem_visual_res
+
+mean_2(pi_mem_visual_t$user_memory_composite_score_visual_baseline)
+mean_2(pi_mem_visual_t$user_memory_composite_score_visual_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(pi_mem_visual_all_long, test_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+pi_mem_visual_res
+```
+
+### Baseline Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_mem_visual_t, user_memory_composite_score_visual_baseline)
+```
+
+### Baseline Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_mem_visual_t, user_memory_composite_score_visual_baseline)
+```
+
+### Post-Injury Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_mem_visual_t, user_memory_composite_score_visual_post_injury_1)
+```
+
+### Post-Injury Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_mem_visual_t, user_memory_composite_score_visual_post_injury_1)
+```
+
 
 ## Impulse Control Composite Score 
 The impulse control composite score data set contains 7,952 individuals. 4,498 individuals (56.56%) were identified to have obtained a higher baseline score, while 3,454 individuals (43.34%) were identified to obtain a higher post-injury score. 
@@ -2777,6 +3069,64 @@ pi_impulse_control_higher_pi %>%
     bordered = TRUE,
     searchable = TRUE
   )
+```
+
+
+## Impulse Control Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean impulse control composite scores of all 7,952 individuals who completed a baseline and post-injury 1 test. On average, individuals scored significantly higher on the baseline test administration (*M* = 33.60) than the post-injury 1 test administration (*M* = 32.34), *t*(7951) = 3.28, *p* = .001. 
+```{r, include=FALSE}
+pi_impulse_control_t <- pi_impulse_control %>% 
+  mutate(impulse_control_diff = user_impulse_control_composite_score_baseline - user_impulse_control_composite_score_post_injury_1)
+
+pi_impulse_control_all_long <- pi_impulse_control_t %>% 
+  select(passport_id, test_date_baseline, test_date_post_injury_1, user_impulse_control_composite_score_baseline, user_impulse_control_composite_score_post_injury_1, impulse_control_diff)  %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "test_time",
+    names_prefix = "user_impulse_control_composite_score_",
+    values_to = "score"
+  )
+
+pi_impulse_control_baseline <- pi_impulse_control_t$user_impulse_control_composite_score_baseline
+pi_impulse_control_pi <- pi_impulse_control_t$user_impulse_control_composite_score_post_injury_1
+
+pi_impulse_control_res <- t.test(pi_impulse_control_baseline, pi_impulse_control_pi, paired = TRUE)
+
+pi_impulse_control_res
+
+mean_2(pi_impulse_control_t$user_impulse_control_composite_score_baseline)
+mean_2(pi_impulse_control_t$user_impulse_control_composite_score_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(pi_impulse_control_all_long, test_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+pi_impulse_control_res
+```
+
+### Baseline Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_impulse_control_t, user_impulse_control_composite_score_baseline)
+```
+
+### Baseline Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_impulse_control_t, user_impulse_control_composite_score_baseline)
+```
+
+### Post-Injury Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_impulse_control_t, user_impulse_control_composite_score_post_injury_1)
+```
+
+### Post-Injury Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_impulse_control_t, user_impulse_control_composite_score_post_injury_1)
 ```
 
 
@@ -2916,6 +3266,62 @@ pi_reaction_time_higher_pi %>%
   )
 ```
 
+## Reaction Time Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean reaction time composite scores of all 7,952 individuals who completed a baseline and post-injury 1 test. On average, individuals scored significantly higher on the post-injury 1 test administration (*M* = 32.40) than the baseline test administration (*M* = 30.45), *t*(7951) = -12.96, *p* < .001. 
+```{r, include=FALSE}
+pi_reaction_time_t <- pi_reaction_time %>% 
+  mutate(reaction_time_diff = user_reaction_time_composite_score_baseline - user_reaction_time_composite_score_post_injury_1)
+
+pi_reaction_time_all_long <- pi_reaction_time_t %>% 
+  select(passport_id, test_date_baseline, test_date_post_injury_1, user_reaction_time_composite_score_baseline, user_reaction_time_composite_score_post_injury_1, reaction_time_diff)  %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "test_time",
+    names_prefix = "user_reaction_time_composite_score_",
+    values_to = "score"
+  )
+
+pi_reaction_time_baseline <- pi_reaction_time_t$user_reaction_time_composite_score_baseline
+pi_reaction_time_pi <- pi_reaction_time_t$user_reaction_time_composite_score_post_injury_1
+
+pi_reaction_time_res <- t.test(pi_reaction_time_baseline, pi_reaction_time_pi, paired = TRUE)
+
+pi_reaction_time_res
+
+mean_2(pi_reaction_time_t$user_reaction_time_composite_score_baseline)
+mean_2(pi_reaction_time_t$user_reaction_time_composite_score_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(pi_reaction_time_all_long, test_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+pi_reaction_time_res
+```
+
+### Baseline Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_reaction_time_t, user_reaction_time_composite_score_baseline)
+```
+
+### Baseline Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_reaction_time_t, user_reaction_time_composite_score_baseline)
+```
+
+### Post-Injury Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_reaction_time_t, user_reaction_time_composite_score_post_injury_1)
+```
+
+### Post-Injury Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_reaction_time_t, user_reaction_time_composite_score_post_injury_1)
+```
 
 
 ## Visual Motor Composite Score 
@@ -3052,4 +3458,79 @@ pi_visual_motor_higher_pi %>%
     bordered = TRUE,
     searchable = TRUE
   )
+```
+
+## Visual Motor Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the visual motor composite scores of all 7,951 individuals who completed a baseline and post-injury 1 test. On average, individuals scored significantly higher on the post-injury 1 test administration (*M* = 1,114.98) than the baseline test administration (*M* = 1,099.58), *t*(7950) = -4.52, *p* < .001. 
+```{r, include=FALSE}
+pi_visual_motor_t <- pi_visual_motor %>% 
+  mutate(visual_motor_diff = user_visual_motor_composite_score_baseline - user_visual_motor_composite_score_post_injury_1)
+
+pi_visual_motor_all_long <- pi_visual_motor_t %>% 
+  select(passport_id, test_date_baseline, test_date_post_injury_1, user_visual_motor_composite_score_baseline, user_visual_motor_composite_score_post_injury_1, visual_motor_diff)  %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "test_time",
+    names_prefix = "user_visual_motor_composite_score_",
+    values_to = "score"
+  )
+
+pi_visual_motor_baseline <- pi_visual_motor_t$user_visual_motor_composite_score_baseline
+pi_visual_motor_pi <- pi_visual_motor_t$user_visual_motor_composite_score_post_injury_1
+
+pi_visual_motor_res <- t.test(pi_visual_motor_baseline, pi_visual_motor_pi, paired = TRUE)
+
+pi_visual_motor_res
+
+mean_2(pi_visual_motor_t$user_visual_motor_composite_score_baseline)
+mean_2(pi_visual_motor_t$user_visual_motor_composite_score_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(pi_visual_motor_all_long, test_time, score)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+pi_visual_motor_res
+```
+
+### Baseline Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_visual_motor_t, user_visual_motor_composite_score_baseline)
+```
+
+### Baseline Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_impulse_control_t, user_impulse_control_composite_score_baseline)
+```
+
+### Post-Injury Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(pi_visual_motor_t, user_visual_motor_composite_score_post_injury_1)
+```
+
+### Post-Injury Total Score Histogram
+```{r, include=TRUE}
+score_hist(pi_visual_motor_t, user_visual_motor_composite_score_post_injury_1)
+```
+
+## Paired *T*-Test Summary
+The results of the paired *t*-tests across all five composite scores for comparison of baseline and post-injury 1 performance identified that individuals, on average, scored significantly higher on the baseline test administration of the verbal memory, visual memory, and impulse control composites. Conversely, individuals were identified to score, on average, significantly higher on the post-injury 1 test administration of the reaction time and visual motor composites. 
+
+```{r, include=FALSE}
+head(all_double_baseline)
+
+ggplot(all_double_baseline, aes(user_memory_composite_score_verbal_1, user_memory_composite_score_visual_1)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+cor_prac <- cor.test(all_double_baseline$user_memory_composite_score_verbal_1,
+                     all_double_baseline$user_memory_composite_score_visual_1,
+                     method = "pearson")
+
+cor_prac
+
 ```
