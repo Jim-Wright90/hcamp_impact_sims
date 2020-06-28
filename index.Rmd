@@ -51,6 +51,10 @@ mean_2 <- function(x) {
   sum(z) / length(z)
 }
 
+str(d)
+d$user_symptom22delayed
+d$user_symptom11delayed
+
 impact2 <- d %>% 
   mutate(user_gender = as.factor(user_gender),
          user_handedness = as.factor(user_handedness),
@@ -98,9 +102,13 @@ impact2 <- d %>%
          design_memory_dm_correct = as.factor(design_memory_dm_correct),
          design_memory_total_percent_correct = as.factor(design_memory_total_percent_correct),
          x_oaverage_incorrect = as.factor(x_oaverage_incorrect),
-         three_letters_percentage_letters_correct = as.factor(three_letters_percentage_letters_correct))
+         three_letters_percentage_letters_correct = as.factor(three_letters_percentage_letters_correct),
+         user_symptom1delayed = as.factor(user_symptom1delayed))
 
 str(impact2)
+
+impact2$user_symptom1delayed
+
 
 impact3 <- impact2 %>% 
   mutate(user_height = as.numeric(user_height),
@@ -120,9 +128,13 @@ impact3 <- impact2 %>%
          design_memory_dm_correct = as.numeric(design_memory_dm_correct),
          design_memory_total_percent_correct = as.numeric(design_memory_total_percent_correct),
          x_oaverage_incorrect = as.numeric(x_oaverage_incorrect),
-         three_letters_percentage_letters_correct = as.numeric(three_letters_percentage_letters_correct))
+         three_letters_percentage_letters_correct = as.numeric(three_letters_percentage_letters_correct),
+         user_symptom1delayed = as.numeric(user_symptom1delayed))
 
 str(impact3)
+
+mean_2(impact3$user_symptom1delayed)
+mean_2(impact3$user_symptom2delayed)
 
 impact <- impact3
 
@@ -2140,7 +2152,8 @@ summary(mod5)
 ggplot(mod_baselines, aes(memory_verbal_diff, time_between)) +
   geom_smooth(method = "lm",
               se = FALSE) +
-  geom_point(color = "gray40") +
+  geom_point(color = "gray40",
+             alpha = 0.3) +
   theme(panel.grid.major.y = element_blank(),
         panel.grid.minor.x = element_blank(),
         panel.grid.major.x = element_line(color = "gray80")) +
@@ -2151,7 +2164,8 @@ sc_plt <- function(df, x, y) {
   ggplot(df, aes({{x}}, {{y}})) +
   geom_smooth(method = "lm",
               se = FALSE) +
-  geom_point(color = "gray40") +
+  geom_point(color = "gray40",
+             alpha = 0.3) +
   theme(panel.grid.major.y = element_blank(),
         panel.grid.minor.x = element_blank(),
         panel.grid.major.x = element_line(color = "gray80")) +
@@ -3532,5 +3546,7 @@ cor_prac <- cor.test(all_double_baseline$user_memory_composite_score_verbal_1,
                      method = "pearson")
 
 cor_prac
+
+
 
 ```
